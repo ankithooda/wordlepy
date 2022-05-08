@@ -79,7 +79,6 @@ class Word():
             word.append(c)
         return word
     
-
 class WordDictionary():
     # How to structure where we need to quicly search for words
     # as well as pick randomly
@@ -134,13 +133,12 @@ class WordMatchOutput():
         self.word_length = word_length
 
     def print(self, word_match):
-        print("\r", end='')
         for i in range(self.word_length):
             match = word_match.get_match(i)
 
             if match['type'] == CharMatchType.NO_MATCH:
                 print(Fore.WHITE, end='')
-                print(Back.RED, end='')
+                print(Back.BLACK, end='')
                 print(match['value'], end=' ')
                 print(Style.RESET_ALL, end='')
             elif match['type'] == CharMatchType.FULL_MATCH:
@@ -157,7 +155,6 @@ class WordMatchOutput():
                 pass
         print()
 
-
 class WordleGame():
 
     # Arguments with default values are arranged in order in which they can be customized.
@@ -165,11 +162,10 @@ class WordleGame():
         self.tries = tries
         self.word_length = word_length
         self.dictionary = WordDictionary(file_location='words.txt')
-        a = self.dictionary.get_random_word()
-        print(f"Word is {a}")
-        self.game_word = Word(a)
+        self.game_word = game_word or Word(self.dictionary.get_random_word())
         self.in_driver = WordInput(self.word_length)
         self.out_driver = WordMatchOutput(self.word_length)
+        self.all_word_matches = []
 
     def play_single_try(self):
         word_input = self.in_driver.get_input()
@@ -177,10 +173,13 @@ class WordleGame():
         if self.dictionary.exists(word_input):
 
             user_word = Word(word_input)
-
             word_match = WordMatch(self.game_word, user_word)
+            self.all_word_matches.append(word_match)
 
-            self.out_driver.print(word_match)
+            os.system('clear')
+
+            for match in self.all_word_matches:
+                self.out_driver.print(match)
 
             if word_match.done:
                 print("You Win.")
@@ -197,11 +196,5 @@ class WordleGame():
         print("You Lose.")
         sys.exit()
 
-
-        
-
-
-    
-
-
-
+game = WordleGame()
+game.play()
