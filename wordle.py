@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from colorama import Back, Style, Fore
 from enum import Enum
 import os
