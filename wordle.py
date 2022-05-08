@@ -60,6 +60,7 @@ class Word():
     def __init__(self, word_string):
         try:
             self.word = self._convert_string_to_array(word_string)
+            self.as_string = word_string.upper()
             self.length = len(self.word)
         except TypeError:
             raise Exception("Provide the word as a string object")
@@ -184,16 +185,20 @@ class WordleGame():
             if word_match.done:
                 print("You Win.")
                 sys.exit()
+
+            return True
         else:
             print("Enter a valid word.")
+            return False
 
     def play(self):
         current_try = 0
         while current_try < self.tries:
-            self.play_single_try()
-            current_try = current_try + 1
+            if self.play_single_try():
+                current_try = current_try + 1
         
         print("You Lose.")
+        print(f"Word was {self.game_word.as_string}")
         sys.exit()
 
 game = WordleGame()
