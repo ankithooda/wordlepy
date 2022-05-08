@@ -1,4 +1,4 @@
-from colorama import Back, Style
+from colorama import Back, Style, Fore
 from enum import Enum
 import os
 import sys
@@ -134,17 +134,24 @@ class WordMatchOutput():
         self.word_length = word_length
 
     def print(self, word_match):
+        print("\r", end='')
         for i in range(self.word_length):
             match = word_match.get_match(i)
 
             if match['type'] == CharMatchType.NO_MATCH:
-                print(Back.RED + match['value'], end=' ')
+                print(Fore.WHITE, end='')
+                print(Back.RED, end='')
+                print(match['value'], end=' ')
                 print(Style.RESET_ALL, end='')
             elif match['type'] == CharMatchType.FULL_MATCH:
-                print(Back.GREEN + match['value'], end=' ')
+                print(Fore.WHITE, end='')
+                print(Back.GREEN, end='')
+                print(match['value'], end=' ')
                 print(Style.RESET_ALL, end='')
             elif match['type'] == CharMatchType.PARTIAL_MATCH:
-                print(Back.YELLOW + match['value'], end=' ')
+                print(Fore.BLACK, end='')
+                print(Back.YELLOW, end='')
+                print(match['value'], end=' ')
                 print(Style.RESET_ALL, end='')
             else:
                 pass
@@ -183,7 +190,7 @@ class WordleGame():
 
     def play(self):
         current_try = 0
-        while current_try <= self.tries:
+        while current_try < self.tries:
             self.play_single_try()
             current_try = current_try + 1
         
